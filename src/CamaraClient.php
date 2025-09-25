@@ -28,7 +28,7 @@ class CamaraClient
     {
         try {
             // Get fresh token for this specific API call
-            $accessToken = Auth::getOAuthToken($this->settings, 'HLR', 'hlr:lookup');
+            $accessToken = Auth::getOAuthToken($this->settings, 'HLR_Lookup', 'openid hlr_data:roi');
 
             if ($accessToken === null) {
                 return 'Failed to obtain access token for HLR service';
