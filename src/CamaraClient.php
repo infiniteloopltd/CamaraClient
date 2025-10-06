@@ -36,7 +36,7 @@ class CamaraClient
 
 
             $premiumInfo = [
-                'msisdn' => '353860599764',
+                'msisdn' => $msisdn,
                 'is_valid_number' => '',
                 'get_home_network' => '',
                 'get_hashed_IMSI' => '',
@@ -55,6 +55,155 @@ class CamaraClient
                 $accessToken,
                 $camaraRequest,
                 'HLR_Lookup',  // siClass
+                $this->settings // Settings array
+            );
+
+            return $response;
+
+        } catch (\Exception $e) {
+            return 'Error: ' . $e->getMessage();
+        }
+    }
+
+    /**
+     * Perform Deactivated MSISDN lookup
+     */
+    public function Deactivated(string $msisdn): string
+    {
+        try {
+
+            $accessToken = Auth::getOAuthToken($this->settings, 'Deactivated_MSISDN', 'openid msisdn_deact:roi');
+
+            if ($accessToken === null) {
+                return 'Failed to obtain access token';
+            }
+
+
+            $premiumInfo = [
+                'msisdn' => $msisdn,
+            ];
+
+            $camaraRequest = CamaraRequest::createRequest($premiumInfo);
+
+            $response = CamaraRequest::request(
+                $accessToken,
+                $camaraRequest,
+                'Deactivated_MSISDN',  // siClass
+                $this->settings // Settings array
+            );
+
+            return $response;
+
+        } catch (\Exception $e) {
+            return 'Error: ' . $e->getMessage();
+        }
+    }
+
+    /**
+     * Perform Account Takeover Protection (ATP) for MSISDN
+     */
+    public function ATP(string $msisdn): string
+    {
+        try {
+
+            $accessToken = Auth::getOAuthToken($this->settings, 'Class1', 'openid atp1:roi');
+
+            if ($accessToken === null) {
+                return 'Failed to obtain access token';
+            }
+
+
+            $premiumInfo = [
+                'msisdn' => $msisdn,
+                'account_state' => '',
+                'account_tenure' => '',
+                'account_tenure_is_greater_than' => '2020-01-01',
+                'billing_segment' => '',
+                'contract_start_date' => '',
+                'customer_type' => '',
+                'device_change' => '',
+                'device_type' => '',
+                'IMEI' => '',
+                'is_lost_stolen' => '',
+                'is_unconditional_call_divert_active' => '',
+                'lost_stolen_date' => '',
+                'ported_in' => '',
+                'ported_in_date' => '',
+                'sim_change' => ''
+            ];
+
+            $camaraRequest = CamaraRequest::createRequest($premiumInfo);
+
+            $response = CamaraRequest::request(
+                $accessToken,
+                $camaraRequest,
+                'Class1',  // siClass
+                $this->settings // Settings array
+            );
+
+            return $response;
+
+        } catch (\Exception $e) {
+            return 'Error: ' . $e->getMessage();
+        }
+    }
+
+    /**
+     * Perform Discovery for MSISDN
+     */
+    public function Discovery(string $msisdn): string
+    {
+        try {
+
+            $accessToken = Auth::getOAuthToken($this->settings, 'H3G_Discovery', 'openid h3g_discovery:roi');
+
+            if ($accessToken === null) {
+                return 'Failed to obtain access token';
+            }
+
+
+            $premiumInfo = [
+                'msisdn' => $msisdn,
+            ];
+
+            $camaraRequest = CamaraRequest::createRequest($premiumInfo);
+
+            $response = CamaraRequest::request(
+                $accessToken,
+                $camaraRequest,
+                'H3G_Discovery',  // siClass
+                $this->settings // Settings array
+            );
+
+            return $response;
+
+        } catch (\Exception $e) {
+            return 'Error: ' . $e->getMessage();
+        }
+    }
+
+    /**
+     * Perform Discovery for MSISDN
+     */
+    public function KYC(array $kycData): string
+    {
+        try {
+
+            $accessToken = Auth::getOAuthToken($this->settings, 'Class1', 'openid kyc1_hashed:roi');
+
+            if ($accessToken === null) {
+                return 'Failed to obtain access token';
+            }
+
+
+            $premiumInfo = KYCRequest::createKycClaims($kycData);
+
+            $camaraRequest = CamaraRequest::createRequest($premiumInfo);
+
+            $response = CamaraRequest::request(
+                $accessToken,
+                $camaraRequest,
+                'Class1',  // siClass
                 $this->settings // Settings array
             );
 
