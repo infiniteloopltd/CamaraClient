@@ -34,7 +34,31 @@ class CamaraClient
                 return 'Failed to obtain access token for HLR service';
             }
 
-            return 'HLR Lookup result goes here';
+
+            $premiumInfo = [
+                'msisdn' => '353860599764',
+                'is_valid_number' => '',
+                'get_home_network' => '',
+                'get_hashed_IMSI' => '',
+                'get_cf_status' => '',
+                'is_roaming' => '',
+                'get_country' => '',
+                'is_in_country' => '272',
+                'get_divert_number' => 'no answer',
+                'get_location' => '',
+                'get_roaming_network' => ''
+            ];
+
+            $camaraRequest = CamaraRequest::createRequest($premiumInfo);
+
+            $response = CamaraRequest::request(
+                $accessToken,
+                $camaraRequest,
+                'HLR_Lookup',  // siClass
+                $this->settings // Settings array
+            );
+
+            return $response;
 
         } catch (\Exception $e) {
             return 'Error: ' . $e->getMessage();
