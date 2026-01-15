@@ -42,9 +42,12 @@ class CamaraRequest
                 "X-CORRELATION-ID: {$camaraRequest['correlation_id']}",
                 "X-SI-ESP: {$settings['esp_id']}",
                 "X-KEY-VERSION: 1.0.0",
-                "sa_service_id: STUB", // Sandbox test header
                 "Content-Type: text/plain"
             ];
+
+            if (!empty($settings['use_sandbox'])) {
+                $headers[] = "sa_service_id: STUB";
+            }
 
             // Configure cURL options
             curl_setopt_array($ch, [
