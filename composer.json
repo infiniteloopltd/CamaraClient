@@ -1,12 +1,12 @@
 {
     "name": "infiniteloop/camara-client",
-    "description": "A simple Hello World Composer package",
+    "description": "A client for the CAMARA cellular network KYC protocol",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Your Name",
-            "email": "your.email@example.com"
+            "name": "Infinite loop development ltd",
+            "email": "info@infintieloop.ie"
         }
     ],
     "require": {
